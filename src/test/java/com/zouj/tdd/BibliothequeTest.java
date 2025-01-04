@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -66,6 +67,7 @@ class BibliothequeTest {
     }
 
     // Feat2
+    // @Disabled("Needs to implement Comparator")
     @Test
     void shouldArrangeBibliothequeBasedOnBookTitle() {
 

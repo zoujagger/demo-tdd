@@ -21,7 +21,8 @@ public class Bibliotheque {
 
     public List<Book> arrange() {
         // books.sort(Comparator.naturalOrder());
-        return books.stream().sorted().collect(Collectors.toList());
+        // return books.stream().sorted().collect(Collectors.toList());
+        return arrange(Comparator.naturalOrder());
     }
 
     public List<Book> arrange(Comparator<Book> criteria) {
