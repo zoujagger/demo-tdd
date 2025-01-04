@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Feat1: As a user, I want to add multiple books to my bookshelf so that I can read them later.
+ */
 class BibliothequeTest {
 
     @Test
