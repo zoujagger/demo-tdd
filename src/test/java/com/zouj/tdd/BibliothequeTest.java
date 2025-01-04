@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,25 +21,32 @@ import org.junit.jupiter.api.Test;
 class BibliothequeTest {
 
     private Bibliotheque biblio;
+    private Book effectiveJava;
+    private Book codeComplete;
+    private Book mythicalManMonth;
 
     @BeforeEach
     void init() throws Exception {
         biblio = new Bibliotheque();
+        effectiveJava = new Book("Effective Java", "Joshua Bloch", LocalDate.of(2008, Month.MAY, 8));
+        codeComplete = new Book("Code Complete", "Steve McConnel", LocalDate.of(2004, Month.JUNE, 9));
+        mythicalManMonth = new Book("The Mythical Man-Month", "Frederick Phillips Brooks",
+                LocalDate.of(1975, Month.JANUARY, 1));
     }
 
     // Feat1
     @Test
     void emptyBibliothequeWhenNoBookAdded() {
-        List<String> books = biblio.books();
+        List<Book> books = biblio.books();
         assertTrue(books.isEmpty(), () -> "Bibliotheque should be empty.");
     }
 
     @Test
     void BibliothequeContainsTwoBookWhenTwoBooksAdded() {
-        biblio.ajouteBook("Effective Java", "Code Complete");
+        biblio.ajouteBook(effectiveJava, codeComplete);
         // biblio.ajouteBook("Code Complete");
 
-        List<String> books = biblio.books();
+        List<Book> books = biblio.books();
 
         assertEquals(2, books.size(), () -> "Bibliotheque shold have two books");
 
@@ -45,10 +54,10 @@ class BibliothequeTest {
 
     @Test
     void booksReturnedFromBibliothequeIsImmutableForClient() {
-        biblio.ajouteBook("Effective Java", "Code Complete");
-        List<String> books = biblio.books();
+        biblio.ajouteBook(effectiveJava, codeComplete);
+        List<Book> books = biblio.books();
         try {
-            books.add("The Mythical Man-Month");
+            books.add(mythicalManMonth);
             fail(() -> "Should not be able to add book to books");
         } catch (Exception e) {
             assertTrue(e instanceof UnsupportedOperationException, () -> "Should throw UnsupportedOperationException.");
@@ -60,9 +69,9 @@ class BibliothequeTest {
     void shouldArrangeBibliothequeBasedOnBookTitle() {
 
         Bibliotheque shelf = new Bibliotheque();
-        shelf.ajouteBook("Effective Java", "Code Complete", "The Mythical Man-Month");
-        List<String> books = shelf.arrange();
-        assertEquals(Arrays.asList("Code Complete", "Effective Java", "The Mythical Man-Month"), books,
+        shelf.ajouteBook(effectiveJava, codeComplete, mythicalManMonth);
+        List<Book> books = shelf.arrange();
+        assertEquals(Arrays.asList(codeComplete, effectiveJava, mythicalManMonth), books,
                 () -> "Books in a bookshelf should be arranged lexicographically by book title");
 
     }
@@ -70,10 +79,10 @@ class BibliothequeTest {
     @Test
     void booksInBibliothequeAreInInsertionOrderAfterCallingArrange() {
         Bibliotheque shelf = new Bibliotheque();
-        shelf.ajouteBook("Effective Java", "Code Complete", "The Mythical Man-Month");
+        shelf.ajouteBook(effectiveJava, codeComplete, mythicalManMonth);
         shelf.arrange();
-        List<String> books = shelf.books();
-        assertEquals(Arrays.asList("Effective Java", "Code Complete", "The Mythical Man-Month"), books,
+        List<Book> books = shelf.books();
+        assertEquals(Arrays.asList(effectiveJava, codeComplete, mythicalManMonth), books,
                 () -> "Books in bookshelf are in insertion order");
     }
 
