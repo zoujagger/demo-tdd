@@ -3,6 +3,7 @@ package com.zouj.tdd;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -95,6 +96,14 @@ class BibliothequeTest {
         List<Book> books = biblio.arrange(Comparator.<Book>naturalOrder().reversed());
         assertEquals(Arrays.asList(mythicalManMonth, effectiveJava, codeComplete), books,
                 () -> "Books in a bookshelf are arranged in descending order of book title");
+    }
+
+    @Test
+    void bookshelfArrangedByUserProvidedCriteria2() {
+        biblio.ajouteBook(effectiveJava, codeComplete, mythicalManMonth);
+        Comparator<Book> reversed = Comparator.<Book>naturalOrder().reversed();
+        List<Book> books = biblio.arrange(reversed);
+        assertThat(books).isSortedAccordingTo(reversed);
     }
 
 }
