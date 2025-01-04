@@ -10,7 +10,7 @@ public class Bibliotheque {
     private final List<String> books = new ArrayList<>();
 
     public List<String> books() {
-        return books;
+        return Collections.unmodifiableList(books);
     }
 
     public void ajouteBook(String... bookNames) {
