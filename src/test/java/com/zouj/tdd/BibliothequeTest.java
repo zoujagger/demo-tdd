@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -14,16 +15,23 @@ import org.junit.jupiter.api.Test;
  */
 class BibliothequeTest {
 
+    private Bibliotheque biblio;
+
+    @BeforeEach
+    void init() throws Exception {
+        biblio = new Bibliotheque();
+    }
+
     @Test
     void emptyBibliothequeWhenNoBookAdded() {
-        Bibliotheque biblio = new Bibliotheque();
+        biblio = new Bibliotheque();
         List<String> books = biblio.books();
         assertTrue(books.isEmpty(), () -> "Bibliotheque should be empty.");
     }
 
     @Test
     void BibliothequeContainsTwoBookWhenTwoBooksAdded() {
-        Bibliotheque biblio = new Bibliotheque();
+        biblio = new Bibliotheque();
 
         biblio.ajouteBook("Effective Java", "Code Complete");
         // biblio.ajouteBook("Code Complete");
@@ -36,7 +44,7 @@ class BibliothequeTest {
 
     @Test
     void booksReturnedFromBookShelfIsImmutableForClient() {
-        Bibliotheque biblio = new Bibliotheque();
+        biblio = new Bibliotheque();
         biblio.ajouteBook("Effective Java", "Code Complete");
         List<String> books = biblio.books();
         try {
