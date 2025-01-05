@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Feat1: As a user, I want to add multiple books to my bookshelf so that I can
@@ -28,6 +29,8 @@ import org.junit.jupiter.api.Test;
  * Feat3: As a user, I should be able to group books in my bookshelf based on
  * certain criteria
  */
+@DisplayName("A bookshelf")
+@ExtendWith(BooksParameterResolver.class)
 class BibliothequeTest {
 
     private Bibliotheque biblio;
@@ -37,13 +40,22 @@ class BibliothequeTest {
     private Book cleanCode;
 
     @BeforeEach
-    void init() {
+    void init(Map<String, Book> books) {
         biblio = new Bibliotheque();
-        effectiveJava = new Book("Effective Java", "Joshua Bloch", LocalDate.of(2008, Month.MAY, 8));
-        codeComplete = new Book("Code Complete", "Steve McConnel", LocalDate.of(2004, Month.JUNE, 9));
-        mythicalManMonth = new Book("The Mythical Man-Month", "Frederick Phillips Brooks",
-                LocalDate.of(1975, Month.JANUARY, 1));
-        cleanCode = new Book("Clean Code", "Robert C. Martin", LocalDate.of(2008, Month.AUGUST, 1));
+        this.effectiveJava = books.get("Effective Java");
+        this.codeComplete = books.get("Code Complete");
+        this.mythicalManMonth = books.get("The Mythical Man-Month");
+        this.cleanCode = books.get("Clean Code");
+
+        // effectiveJava = new Book("Effective Java", "Joshua Bloch", LocalDate.of(2008,
+        // Month.MAY, 8));
+        // codeComplete = new Book("Code Complete", "Steve McConnel", LocalDate.of(2004,
+        // Month.JUNE, 9));
+        // mythicalManMonth = new Book("The Mythical Man-Month", "Frederick Phillips
+        // Brooks",
+        // LocalDate.of(1975, Month.JANUARY, 1));
+        // cleanCode = new Book("Clean Code", "Robert C. Martin", LocalDate.of(2008,
+        // Month.AUGUST, 1));
     }
 
     // Feat1
