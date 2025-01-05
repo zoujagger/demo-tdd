@@ -34,8 +34,9 @@ public class Bibliotheque {
 
     public Map<Year, List<Book>> groupByPublicationYear() {
         // return books
-        //         .stream()
-        //         .collect(Collectors.groupingBy(book -> Year.of(book.getPublishedOn().getYear())));
+        // .stream()
+        // .collect(Collectors.groupingBy(book ->
+        // Year.of(book.getPublishedOn().getYear())));
         return groupBy(book -> Year.of(book.getPublishedOn().getYear()));
     }
 
@@ -43,5 +44,18 @@ public class Bibliotheque {
         return books
                 .stream()
                 .collect(Collectors.groupingBy(fx));
+    }
+
+    public Progress progress() {
+        int booksRead = Long.valueOf(books.stream().filter(Book::isRead).count()).intValue();
+        int booksInProgress = Long.valueOf(books.stream().filter(Book::isProgress).count()).intValue();
+        int booksToRead = books.size() - booksRead - booksInProgress;
+
+        int percentageCompleted = booksRead * 100 / books.size();
+        int percentageToRead = booksToRead * 100 / books.size();
+        int percentageInProgress = booksInProgress * 100 / books.size();
+
+        return new Progress(percentageCompleted, percentageToRead, percentageInProgress);
+        // return new Progress(0, 100, 0);
     }
 }
