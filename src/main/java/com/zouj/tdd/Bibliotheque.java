@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Bibliotheque {
@@ -57,5 +58,18 @@ public class Bibliotheque {
 
         return new Progress(percentageCompleted, percentageToRead, percentageInProgress);
         // return new Progress(0, 100, 0);
+    }
+
+    public List<Book> findBooksByTitle(String title) {
+        // return books.stream().filter(book ->
+        // book.getTitle().contains(keyword)).collect(Collectors.toList());
+        return findBooksByTitle(title, b -> true);
+    }
+
+    public List<Book> findBooksByTitle(String title, Predicate<Book> filter) {
+        return books.stream()
+                .filter(b -> b.getTitle().toLowerCase().contains(title))
+                .filter(filter)
+                .collect(Collectors.toList());
     }
 }
