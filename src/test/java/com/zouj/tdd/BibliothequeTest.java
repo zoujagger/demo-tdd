@@ -4,15 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.Collections.singletonList;
+
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Year;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -20,6 +25,8 @@ import org.junit.jupiter.api.Test;
  * read them later.
  * Feat2: As a user, I should be able to arrange my bookshelf based on certain
  * criteria
+ * Feat3: As a user, I should be able to group books in my bookshelf based on
+ * certain criteria
  */
 class BibliothequeTest {
 
@@ -27,6 +34,7 @@ class BibliothequeTest {
     private Book effectiveJava;
     private Book codeComplete;
     private Book mythicalManMonth;
+    private Book cleanCode;
 
     @BeforeEach
     void init() throws Exception {
@@ -35,6 +43,7 @@ class BibliothequeTest {
         codeComplete = new Book("Code Complete", "Steve McConnel", LocalDate.of(2004, Month.JUNE, 9));
         mythicalManMonth = new Book("The Mythical Man-Month", "Frederick Phillips Brooks",
                 LocalDate.of(1975, Month.JANUARY, 1));
+        cleanCode = new Book("Clean Code", "Robert C. Martin", LocalDate.of(2008, Month.AUGUST, 1));
     }
 
     // Feat1
@@ -104,6 +113,20 @@ class BibliothequeTest {
         Comparator<Book> reversed = Comparator.<Book>naturalOrder().reversed();
         List<Book> books = biblio.arrange(reversed);
         assertThat(books).isSortedAccordingTo(reversed);
+    }
+
+    // Feat3
+    @Test
+    @DisplayName("books inside bookshelf are grouped by publication year")
+    void groupBooksInsideBookShelfByPublicationYear() {
+        biblio.ajouteBook(effectiveJava, codeComplete, mythicalManMonth, cleanCode);
+        Map<Year, List<Book>> booksByPublicationYear = biblio.groupByPublicationYear();
+        assertThat(booksByPublicationYear)
+                .containsKey(Year.of(2008))
+                .containsValues(Arrays.asList(effectiveJava, cleanCode));
+        assertThat(booksByPublicationYear)
+                .containsKey(Year.of(2004))
+                .containsValues(singletonList(codeComplete));
     }
 
 }
