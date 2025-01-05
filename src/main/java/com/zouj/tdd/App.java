@@ -8,6 +8,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        System.out.println( "-------- Demo Katas ---------" );
+        KataFizzBuzz fizz = new KataFizzBuzz(100);
+        fizz.compute();
     }
 }
