@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Bibliotheque {
@@ -32,9 +33,15 @@ public class Bibliotheque {
     }
 
     public Map<Year, List<Book>> groupByPublicationYear() {
-        return books
-                .stream()
-                .collect(Collectors.groupingBy(book -> Year.of(book.getPublishedOn().getYear())));
+        // return books
+        //         .stream()
+        //         .collect(Collectors.groupingBy(book -> Year.of(book.getPublishedOn().getYear())));
+        return groupBy(book -> Year.of(book.getPublishedOn().getYear()));
     }
 
+    public <K> Map<K, List<Book>> groupBy(Function<Book, K> fx) {
+        return books
+                .stream()
+                .collect(Collectors.groupingBy(fx));
+    }
 }

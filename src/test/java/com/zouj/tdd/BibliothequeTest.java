@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static java.util.Collections.singletonList;
 
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
@@ -127,6 +126,27 @@ class BibliothequeTest {
         assertThat(booksByPublicationYear)
                 .containsKey(Year.of(2004))
                 .containsValues(singletonList(codeComplete));
+    }
+
+    @Test
+    @DisplayName("books inside bookshelf are grouped according to user providedcriteria(group by author name)")
+    void groupBooksByUserProvidedCriteria() {
+        biblio.ajouteBook(effectiveJava, codeComplete, mythicalManMonth, cleanCode);
+        Map<String, List<Book>> booksByAuthor = biblio.groupBy(Book::getAuthor);
+
+        assertThat(booksByAuthor)
+                .containsKey("Joshua Bloch")
+                .containsValues(singletonList(effectiveJava));
+        assertThat(booksByAuthor)
+                .containsKey("Steve McConnel")
+                .containsValues(singletonList(codeComplete));
+        assertThat(booksByAuthor)
+                .containsKey("Frederick Phillips Brooks")
+                .containsValues(singletonList(mythicalManMonth));
+        assertThat(booksByAuthor)
+                .containsKey("Robert C. Martin")
+                .containsValues(singletonList(cleanCode));
+
     }
 
 }
